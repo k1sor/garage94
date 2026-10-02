@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Каталог{% endblock %}
+{% block content %}
+<h1 class="page-title">Каталог</h1>
+<p style="color:var(--muted);margin:0 0 1.5rem;">Фильтруй по жанру, году и цене — найди свой пресс.</p>
+
+<div class="shop-layout">
+  <aside class="filters">
+    <h3>Фильтры</h3>
+    <form method="get" action="{{ url_for('catalog.shop') }}">
+      <div class="form-group">
+        <label for="q">Поиск</label>
+        <input class="form-input" type="search" id="q" name="q" value="{{ filters.q }}" placeholder="артист / альбом">
+      </div>
+      <div class="form-group">
+        <label for="genre">Жанр</label>
+        <select class="form-input" id="genre" name="genre">
+          <option value="">Все</option>
+          {% for value, label in genres %}
+            <option value="{{ value }}" {% if filters.genre == value %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Год</label>
+        <div class="form-row">
+          <input class="form-input" type="number" name="year_from" placeholder="от" value="{{ filters.year_from }}">
+          <input class="form-input" type="number" name="year_to" placeholder="до" value="{{ filters.year_to }}">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Цена, ₽</label>
+        <div class="form-row">
+          <input class="form-input" type="number" name="price_min" placeholder="мин" value="{{ filters.price_min }}">
+          <input class="form-input" type="number" name="price_max" placeholder="макс" value="{{ filters.price_max }}">
+        </div>
+      </div>
+      <button class="btn btn-accent" type="submit" style="width:100%;">Применить</button>
+      <a class="btn btn-ghost" href="{{ url_for('catalog.shop') }}" style="width:100%;margin-top:0.5rem;">Сбросить</a>
+    </form>
+  </aside>
+
+  <div>
+    {% if products %}
+      <p style="color:var(--muted);margin:0 0 1rem;">Найдено: {{ products|length }}</p>
+      <div class="product-grid">
+        {% for product in products %}
+          {% include "partials/product_card.html" %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty">
+        <h3>Ничего не найдено</h3>
+        <p>Попробуйте изменить фильтры или сбросить поиск.</p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

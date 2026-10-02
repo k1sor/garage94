@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}404{% endblock %}
+{% block content %}
+<section class="empty" style="margin-top:3rem;">
+  <h3>404 — пластинка не найдена</h3>
+  <p>Эта дорожка сошла с вертушки. Вернёмся в каталог?</p>
+  <p style="margin-top:1.25rem;">
+    <a class="btn btn-accent" href="{{ url_for('catalog.shop') }}">В каталог</a>
+    <a class="btn btn-ghost" href="{{ url_for('main.home') }}">На главную</a>
+  </p>
+</section>
+{% endblock %}

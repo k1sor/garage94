@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Заказ #{{ order.id }}{% endblock %}
+{% block content %}
+<div class="success-box" style="margin-top:2.5rem;">
+  <h1>Спасибо!</h1>
+  <p style="color:var(--muted);">Заказ принят и ожидает оплаты.</p>
+  <div class="order-num">#{{ order.id }}</div>
+  <p>Email: <strong>{{ order.email }}</strong></p>
+  <p class="price" style="font-size:1.3rem;">{{ order.total_display }}</p>
+  <p><span class="badge">{{ order.status_label }}</span></p>
+  <p style="margin-top:1.5rem;">
+    <a class="btn btn-accent" href="{{ url_for('catalog.shop') }}">Вернуться в каталог</a>
+    {% if current_user.is_authenticated %}
+      <a class="btn btn-ghost" href="{{ url_for('auth.profile') }}">Мои заказы</a>
+    {% endif %}
+  </p>
+</div>
+{% endblock %}

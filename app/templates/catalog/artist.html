@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}{{ artist_name }}{% endblock %}
+{% block content %}
+<h1 class="page-title">{{ artist_name }}</h1>
+<p style="color:var(--muted);margin:0 0 1.5rem;">
+  {{ count }} {{ 'пластинка' if count == 1 else ('пластинки' if count < 5 else 'пластинок') }} в каталоге Garage Vinyl.
+</p>
+
+{% if products %}
+  <div class="product-grid">
+    {% for product in products %}
+      {% include "partials/product_card.html" %}
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="empty">
+    <h3>Пока пусто</h3>
+    <p>У этого артиста нет пластинок в магазине.</p>
+  </div>
+{% endif %}
+{% endblock %}

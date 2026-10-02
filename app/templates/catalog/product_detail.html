@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}{{ product.title }}{% endblock %}
+{% block content %}
+<article class="product-detail" style="margin-top:1.5rem;">
+  <div class="cover-lg">
+    {% if product.display_cover %}
+      <img src="{{ product.display_cover }}" alt="{{ product.title }}"
+           onerror="this.onerror=null;this.src='{{ url_for('static', filename='img/cover-placeholder.svg') }}';">
+    {% else %}
+      <img src="{{ url_for('static', filename='img/cover-placeholder.svg') }}" alt="{{ product.title }}">
+    {% endif %}
+  </div>
+  <div>
+    <div class="artist-lg">
+      <a href="{{ url_for('catalog.artist_detail', artist_slug=product.artist_slug) }}">{{ product.artist }}</a>
+    </div>
+    <h1>{{ product.title }}</h1>
+    <div class="detail-meta">
+      <span class="badge">{{ product.genre_label }}</span>
+      <span class="badge">{{ product.year }}</span>
+      <span class="badge badge-ok">{{ product.condition_label }}</span>
+      {% if product.is_featured %}<span class="badge badge-accent">Избранное</span>{% endif %}
+      {% if product.in_stock %}
+        <span class="badge">В наличии: {{ product.stock }}</span>
+      {% else %}
+        <span class="badge badge-muted">Нет в наличии</span>
+      {% endif %}
+    </div>
+    <div class="detail-price">{{ product.price_display }}</div>
+    {% if product.description %}
+      <p class="description">{{ product.description }}</p>
+    {% endif %}
+
+    {% if product.in_stock %}
+    <form class="add-form" method="post" action="{{ url_for('cart.cart_add', product_id=product.id) }}">
+      {{ cart_form.hidden_tag() }}
+      {{ cart_form.quantity(class_="input-qty", value=1) }}
+      {{ cart_form.update }}
+      <button class="btn btn-accent" type="submit">В корзину</button>
+    </form>
+    {% else %}
+      <p style="color:var(--muted);">Сейчас нет на складе — загляните позже.</p>
+    {% endif %}
+  </div>
+</article>
+
+{% set tracks = product.tracks %}
+{% if tracks %}
+<section class="section tracklist-section">
+  <div class="section-head">
+    <h2>Треки</h2>
+    <span style="color:var(--muted);">{{ tracks|length }}</span>
+  </div>
+  <ol class="tracklist">
+    {% for t in tracks %}
+    <li>
+      <span class="track-pos">{{ t.position }}</span>
+      <span class="track-title">{{ t.title }}</span>
+      <span class="track-dur">{{ product.format_duration(t.duration_sec) }}</span>
+    </li>
+    {% endfor %}
+  </ol>
+</section>
+{% endif %}
+
+{% if related %}
+<section class="section">
+  <div class="section-head">
+    <h2>Похожие</h2>
+  </div>
+  <div class="product-grid">
+    {% for product in related %}
+      {% include "partials/product_card.html" %}
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+{% endblock %}

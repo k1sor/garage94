@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}{% if product %}Редактировать{% else %}Создать{% endif %} товар{% endblock %}
+{% block content %}
+<h1 class="page-title">{% if product %}Редактировать{% else %}Новая пластинка{% endif %}</h1>
+
+<div class="panel" style="max-width:640px;margin:1rem 0 2rem;">
+  <form method="post" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+      {{ form.title.label }}
+      {{ form.title }}
+      {% for e in form.title.errors %}<div class="field-error">{{ e }}</div>{% endfor %}
+    </div>
+    <div class="form-group">
+      {{ form.artist.label }}
+      {{ form.artist }}
+      {% for e in form.artist.errors %}<div class="field-error">{{ e }}</div>{% endfor %}
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        {{ form.genre.label }}
+        {{ form.genre }}
+      </div>
+      <div class="form-group">
+        {{ form.year.label }}
+        {{ form.year }}
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        {{ form.price.label }}
+        {{ form.price }}
+      </div>
+      <div class="form-group">
+        {{ form.condition.label }}
+        {{ form.condition }}
+      </div>
+    </div>
+    <div class="form-group">
+      {{ form.stock.label }}
+      {{ form.stock }}
+    </div>
+    <div class="form-group">
+      {{ form.description.label }}
+      {{ form.description }}
+    </div>
+    <div class="form-group">
+      {{ form.cover.label }}
+      {{ form.cover(class_="form-input") }}
+      {% if product and product.cover %}
+        <p style="margin-top:0.5rem;">
+          <img class="cart-thumb" src="{{ url_for('media_file', filename=product.cover) }}" alt="">
+          <span style="color:var(--muted);font-size:0.85rem;">текущая обложка</span>
+        </p>
+      {% endif %}
+      {% for e in form.cover.errors %}<div class="field-error">{{ e }}</div>{% endfor %}
+    </div>
+    <label class="checkbox-row">
+      {{ form.is_featured() }} В избранном
+    </label>
+    <div style="display:flex;gap:0.75rem;margin-top:1rem;flex-wrap:wrap;">
+      {{ form.submit }}
+      <a class="btn btn-ghost" href="{{ url_for('dashboard.product_list') }}">Отмена</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

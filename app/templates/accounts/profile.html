@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Профиль{% endblock %}
+{% block content %}
+<h1 class="page-title">Профиль</h1>
+<div class="panel" style="max-width:720px;margin:1rem 0 2rem;">
+  <p><strong>{{ current_user.username }}</strong></p>
+  <p style="color:var(--muted);">{{ current_user.email }}</p>
+  {% if current_user.is_staff %}
+    <p><span class="badge badge-accent">Staff</span>
+      <a href="{{ url_for('dashboard.product_list') }}">Открыть dashboard →</a>
+    </p>
+  {% endif %}
+</div>
+
+<h2 style="font-size:1.1rem;text-transform:uppercase;letter-spacing:0.04em;">Мои заказы</h2>
+{% if orders %}
+<div class="table-wrap" style="margin-top:1rem;">
+  <table class="data">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Дата</th>
+        <th>Статус</th>
+        <th>Сумма</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in orders %}
+      <tr>
+        <td>{{ order.id }}</td>
+        <td>{{ order.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+        <td><span class="badge">{{ order.status_label }}</span></td>
+        <td class="price">{{ order.total_display }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty" style="margin-top:1rem;">
+  <h3>Заказов пока нет</h3>
+  <p><a class="btn btn-accent" href="{{ url_for('catalog.shop') }}">В каталог</a></p>
+</div>
+{% endif %}
+{% endblock %}

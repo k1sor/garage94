@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Вход{% endblock %}
+{% block content %}
+<div class="auth-card">
+  <h1>Вход</h1>
+  <form method="post">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+      {{ form.username.label }}
+      {{ form.username }}
+      {% for e in form.username.errors %}<div class="field-error">{{ e }}</div>{% endfor %}
+    </div>
+    <div class="form-group">
+      {{ form.password.label }}
+      {{ form.password }}
+      {% for e in form.password.errors %}<div class="field-error">{{ e }}</div>{% endfor %}
+    </div>
+    <label class="checkbox-row">
+      {{ form.remember() }} Запомнить меня
+    </label>
+    {{ form.submit }}
+  </form>
+  <p class="hint">Нет аккаунта? <a href="{{ url_for('auth.register') }}">Регистрация</a></p>
+</div>
+{% endblock %}

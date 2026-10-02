@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · Товары{% endblock %}
+{% block content %}
+<div class="dash-toolbar">
+  <h1 class="page-title" style="margin:0;">Товары</h1>
+  <a class="btn btn-accent" href="{{ url_for('dashboard.product_create') }}">+ Добавить</a>
+</div>
+
+{% if products %}
+<div class="table-wrap">
+  <table class="data">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Обложка</th>
+        <th>Артист / Альбом</th>
+        <th>Жанр</th>
+        <th>Цена</th>
+        <th>Сток</th>
+        <th>Feat.</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in products %}
+      <tr>
+        <td>{{ p.id }}</td>
+        <td>
+          {% if p.display_cover %}
+            <img class="cart-thumb" src="{{ p.display_cover }}" alt="">
+          {% else %}
+            <div class="cart-thumb"></div>
+          {% endif %}
+        </td>
+        <td>
+          <strong>{{ p.artist }}</strong><br>
+          <a href="{{ url_for('catalog.product_detail', slug=p.slug) }}">{{ p.title }}</a>
+        </td>
+        <td>{{ p.genre_label }}</td>
+        <td class="price">{{ p.price_display }}</td>
+        <td>{{ p.stock }}</td>
+        <td>{% if p.is_featured %}★{% else %}—{% endif %}</td>
+        <td style="white-space:nowrap;">
+          <a class="btn btn-ghost btn-sm" href="{{ url_for('dashboard.product_edit', product_id=p.id) }}">Изменить</a>
+          <form class="inline-form" method="post" action="{{ url_for('dashboard.product_delete', product_id=p.id) }}" onsubmit="return confirm('Удалить «{{ p.title }}»?');">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button class="btn btn-danger btn-sm" type="submit">Удалить</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty">
+  <h3>Нет товаров</h3>
+  <p><a class="btn btn-accent" href="{{ url_for('dashboard.product_create') }}">Создать первую пластинку</a></p>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Главная{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-inner">
+    <h1>Твой магазин.<br>Твой плейлист.<br>Твой винил.</h1>
+    <p>Гаражный шоп пластинок: джаз, рок, хип-хоп, электроника и панк — с характером Garage94.</p>
+    <a class="btn btn-accent" href="{{ url_for('catalog.shop') }}">Смотреть каталог</a>
+  </div>
+</section>
+
+{% if featured %}
+<section class="section">
+  <div class="section-head">
+    <h2>Избранное</h2>
+    <a href="{{ url_for('catalog.shop') }}">Весь каталог →</a>
+  </div>
+  <div class="product-grid">
+    {% for product in featured %}
+      {% include "partials/product_card.html" %}
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<section class="section">
+  <div class="section-head">
+    <h2>Новинки</h2>
+  </div>
+  {% if latest %}
+  <div class="product-grid">
+    {% for product in latest %}
+      {% include "partials/product_card.html" %}
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty">
+    <h3>Пока пусто</h3>
+    <p>Скоро здесь появятся новые поступления.</p>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}
