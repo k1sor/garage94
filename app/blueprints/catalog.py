@@ -74,24 +74,3 @@ def product_detail(slug):
         cart_form=form,
         related=related,
     )
-
-
-@bp.route("/artist/<artist_slug>/")
-def artist_detail(artist_slug):
-    products = (
-        Product.query.filter_by(artist_slug=artist_slug)
-        .order_by(Product.year.desc(), Product.title.asc())
-        .all()
-    )
-    if not products:
-        from flask import abort
-
-        abort(404)
-    artist_name = products[0].artist
-    return render_template(
-        "catalog/artist.html",
-        artist_name=artist_name,
-        artist_slug=artist_slug,
-        products=products,
-        count=len(products),
-    )

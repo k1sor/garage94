@@ -1,5 +1,3 @@
--- Garage Vinyl: схема реляционной БД (SQLite)
--- Сгенерировано из garage_vinyl.db; модели: app/models.py
 
 PRAGMA foreign_keys = ON;
 

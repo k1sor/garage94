@@ -12,7 +12,7 @@
   </div>
   <div>
     <div class="artist-lg">
-      <a href="{{ url_for('catalog.artist_detail', artist_slug=product.artist_slug) }}">{{ product.artist }}</a>
+      {{ product.artist }}
     </div>
     <h1>{{ product.title }}</h1>
     <div class="detail-meta">

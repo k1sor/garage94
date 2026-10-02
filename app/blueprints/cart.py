@@ -1,11 +1,7 @@
-from decimal import Decimal
-
 from flask import Blueprint, flash, redirect, render_template, request, url_for
-from flask_login import current_user
 
-from app.extensions import db
-from app.forms import CartAddProductForm, CheckoutForm
-from app.models import Order, OrderItem, Product
+from app.forms import CartAddProductForm
+from app.models import Product
 from app.services.cart import Cart
 
 bp = Blueprint("cart", __name__)
@@ -60,68 +56,3 @@ def cart_update(product_id):
     else:
         cart.add(product=product, quantity=quantity, update_quantity=True)
     return redirect(url_for("cart.cart_detail"))
-
-
-@bp.route("/checkout/", methods=["GET", "POST"])
-def checkout():
-    cart = Cart()
-    items = cart.items_list()
-    if not items:
-        flash("Корзина пуста.", "info")
-        return redirect(url_for("cart.cart_detail"))
-
-    form = CheckoutForm()
-    if request.method == "GET" and current_user.is_authenticated:
-        form.email.data = current_user.email
-
-    if form.validate_on_submit():
-        # Re-validate stock
-        for item in items:
-            if item["quantity"] > item["product"].stock:
-                flash(
-                    f"Недостаточно «{item['product'].title}» на складе "
-                    f"(доступно {item['product'].stock}).",
-                    "error",
-                )
-                return redirect(url_for("cart.cart_detail"))
-
-        total = cart.get_total_price()
-        order = Order(
-            user_id=current_user.id if current_user.is_authenticated else None,
-            email=form.email.data.lower(),
-            status=Order.STATUS_PENDING,
-            total=total,
-        )
-        db.session.add(order)
-        db.session.flush()
-
-        for item in items:
-            product = item["product"]
-            db.session.add(
-                OrderItem(
-                    order_id=order.id,
-                    product_id=product.id,
-                    quantity=item["quantity"],
-                    price_at_purchase=Decimal(item["price"]),
-                )
-            )
-            product.stock = max(0, product.stock - item["quantity"])
-
-        db.session.commit()
-        cart.clear()
-        flash("Заказ оформлен!", "success")
-        return redirect(url_for("cart.order_success", order_id=order.id))
-
-    return render_template(
-        "orders/checkout.html",
-        form=form,
-        cart=cart,
-        items=items,
-        total=cart.get_total_price(),
-    )
-
-
-@bp.route("/checkout/success/<int:order_id>/")
-def order_success(order_id):
-    order = Order.query.get_or_404(order_id)
-    return render_template("orders/success.html", order=order)

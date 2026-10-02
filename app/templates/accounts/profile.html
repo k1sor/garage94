@@ -5,11 +5,6 @@
 <div class="panel" style="max-width:720px;margin:1rem 0 2rem;">
   <p><strong>{{ current_user.username }}</strong></p>
   <p style="color:var(--muted);">{{ current_user.email }}</p>
-  {% if current_user.is_staff %}
-    <p><span class="badge badge-accent">Staff</span>
-      <a href="{{ url_for('dashboard.product_list') }}">Открыть dashboard →</a>
-    </p>
-  {% endif %}
 </div>
 
 <h2 style="font-size:1.1rem;text-transform:uppercase;letter-spacing:0.04em;">Мои заказы</h2>

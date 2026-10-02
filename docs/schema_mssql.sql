@@ -1,4 +1,3 @@
--- БД магазина Garage Vinyl для MS SQL Server
 
 IF DB_ID('GarageVinylDB') IS NULL
     CREATE DATABASE GarageVinylDB;

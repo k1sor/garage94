@@ -8,9 +8,6 @@
     <ul class="nav-links">
       <li><a href="{{ url_for('main.home') }}" class="{% if request.endpoint == 'main.home' %}active{% endif %}">Главная</a></li>
       <li><a href="{{ url_for('catalog.shop') }}" class="{% if request.endpoint and request.endpoint.startswith('catalog') %}active{% endif %}">Каталог</a></li>
-      {% if current_user.is_authenticated and current_user.is_staff %}
-        <li><a href="{{ url_for('dashboard.product_list') }}" class="{% if request.endpoint and request.endpoint.startswith('dashboard') %}active{% endif %}">Dashboard</a></li>
-      {% endif %}
     </ul>
 
     <div class="nav-actions">

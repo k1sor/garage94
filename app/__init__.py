@@ -27,13 +27,12 @@ def create_app(config_class=Config):
     login_manager.init_app(app)
     csrf.init_app(app)
 
-    from app.blueprints import auth, cart, catalog, dashboard, main
+    from app.blueprints import auth, cart, catalog, main
 
     app.register_blueprint(main.bp)
     app.register_blueprint(auth.bp)
     app.register_blueprint(catalog.bp)
     app.register_blueprint(cart.bp)
-    app.register_blueprint(dashboard.bp)
 
     # SQLite is created automatically on startup; no migration tool is needed.
     with app.app_context():
