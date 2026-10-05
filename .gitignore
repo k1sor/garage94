@@ -8,3 +8,7 @@ media/covers/*
 !media/covers/.gitkeep
 .pytest_cache/
 *.egg-info/
+
+# отчеты
+*.docx
+~$*
