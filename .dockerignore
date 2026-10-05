@@ -1,0 +1,24 @@
+# окружение и кэш
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# секреты и база
+.env
+*.db
+
+# git и ci
+.git/
+.gitignore
+.github/
+
+# то что не нужно в образе
+docs/
+tests/
+*.docx
+media/covers/*
+!media/covers/.gitkeep
+Dockerfile
+.dockerignore

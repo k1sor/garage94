@@ -8,7 +8,7 @@ load_dotenv(BASE_DIR / ".env")
 
 
 class Config:
-    SECRET_KEY = os.getenv("SECRET_KEY", "change-me")
+    SECRET_KEY = os.getenv("SECRET_KEY") or "change-me"
     DEBUG = os.getenv("DEBUG", "False").lower() in ("1", "true", "yes")
 
     # The college version uses SQLite only.
