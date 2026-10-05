@@ -55,3 +55,13 @@ def test_register_and_login(client, app):
     )
     assert resp.status_code == 200
     assert "ivan" in resp.get_data(as_text=True)
+
+
+def test_login_wrong_password(client):
+    resp = client.post(
+        "/accounts/login/",
+        data={"username": "nobody", "password": "123"},
+        follow_redirects=True,
+    )
+    assert resp.status_code == 200
+    assert "Выйти" not in resp.get_data(as_text=True)
