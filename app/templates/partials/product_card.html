@@ -1,15 +1,15 @@
 <article class="product-card">
   <a class="cover" href="{{ url_for('catalog.product_detail', slug=product.slug) }}">
     {% if product.display_cover %}
-      <img src="{{ product.display_cover }}" alt="{{ product.title }}" loading="lazy"
+      <img src="{{ product.display_cover }}" alt="{{ product.artist }} — {{ product.title }}" width="600" height="600" loading="lazy" decoding="async"
            onerror="this.onerror=null;this.src='{{ url_for('static', filename='img/cover-placeholder.svg') }}';">
     {% else %}
-      <img src="{{ url_for('static', filename='img/cover-placeholder.svg') }}" alt="{{ product.title }}" loading="lazy">
+      <img src="{{ url_for('static', filename='img/cover-placeholder.svg') }}" alt="{{ product.artist }} — {{ product.title }}" width="600" height="600" loading="lazy" decoding="async">
     {% endif %}
   </a>
   <div class="body">
     <span class="artist">{{ product.artist }}</span>
-    <a class="title" href="{{ url_for('catalog.product_detail', slug=product.slug) }}">{{ product.title }}</a>
+    <h3 class="title"><a href="{{ url_for('catalog.product_detail', slug=product.slug) }}">{{ product.title }}</a></h3>
     <div class="meta">
       <span class="price">{{ product.price_display }}</span>
       {% if product.in_stock %}

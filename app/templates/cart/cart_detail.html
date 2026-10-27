@@ -1,5 +1,7 @@
 {% extends "base.html" %}
-{% block title %}Корзина{% endblock %}
+{% block title %}Корзина — Garage Vinyl{% endblock %}
+{% block description %}Корзина Garage Vinyl: выбранные пластинки и итоговая сумма заказа.{% endblock %}
+{% block robots %}<meta name="robots" content="noindex, nofollow">{% endblock %}
 {% block content %}
 <h1 class="page-title">Корзина</h1>
 
@@ -22,10 +24,10 @@
         <td>
           <div class="cart-product">
             {% if item.product.display_cover %}
-              <img class="cart-thumb" src="{{ item.product.display_cover }}" alt=""
+              <img class="cart-thumb" src="{{ item.product.display_cover }}" alt="{{ item.product.artist }} — {{ item.product.title }}" width="56" height="56" decoding="async"
                    onerror="this.onerror=null;this.src='{{ url_for('static', filename='img/cover-placeholder.svg') }}';">
             {% else %}
-              <img class="cart-thumb" src="{{ url_for('static', filename='img/cover-placeholder.svg') }}" alt="">
+              <img class="cart-thumb" src="{{ url_for('static', filename='img/cover-placeholder.svg') }}" alt="{{ item.product.artist }} — {{ item.product.title }}" width="56" height="56" decoding="async">
             {% endif %}
             <div>
               <a href="{{ url_for('catalog.product_detail', slug=item.product.slug) }}">
@@ -67,7 +69,7 @@
 </div>
 {% else %}
 <div class="empty">
-  <h3>Корзина пуста</h3>
+  <h2>Корзина пуста</h2>
   <p>Добавьте пластинки из каталога.</p>
   <p style="margin-top:1rem;"><a class="btn btn-accent" href="{{ url_for('catalog.shop') }}">В каталог</a></p>
 </div>
