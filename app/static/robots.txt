@@ -1,0 +1,20 @@
+User-agent: *
+Disallow: /accounts/profile/
+Disallow: /accounts/login/
+Disallow: /accounts/register/
+Disallow: /accounts/logout/
+Disallow: /cart/
+Disallow: /admin/
+Disallow: /api/
+Sitemap: https://example.com/sitemap.xml
+
+User-agent: Yandex
+Disallow: /accounts/profile/
+Disallow: /accounts/login/
+Disallow: /accounts/register/
+Disallow: /accounts/logout/
+Disallow: /cart/
+Disallow: /admin/
+Disallow: /api/
+Clean-param: utm_source&utm_medium&utm_campaign
+Sitemap: https://example.com/sitemap.xml

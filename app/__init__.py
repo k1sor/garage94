@@ -1,6 +1,7 @@
 from pathlib import Path
+import gzip
 
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, request, send_from_directory
 
 from app.config import Config
 from app.extensions import csrf, db, login_manager
@@ -27,12 +28,13 @@ def create_app(config_class=Config):
     login_manager.init_app(app)
     csrf.init_app(app)
 
-    from app.blueprints import auth, cart, catalog, main
+    from app.blueprints import auth, cart, catalog, main, seo
 
     app.register_blueprint(main.bp)
     app.register_blueprint(auth.bp)
     app.register_blueprint(catalog.bp)
     app.register_blueprint(cart.bp)
+    app.register_blueprint(seo.bp)
 
     # SQLite is created automatically on startup; no migration tool is needed.
     with app.app_context():
@@ -42,11 +44,43 @@ def create_app(config_class=Config):
     def inject_cart():
         from app.services.cart import Cart
 
-        return {"cart": Cart()}
+        return {"cart": Cart(), "site_url": app.config["SITE_URL"].rstrip("/")}
 
     @app.route("/media/<path:filename>")
     def media_file(filename):
-        return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
+        return send_from_directory(
+            app.config["UPLOAD_FOLDER"], filename, max_age=60 * 60 * 24 * 30
+        )
+
+    @app.after_request
+    def add_seo_headers(response):
+        if request.path.startswith("/api/") or response.is_json:
+            response.headers["X-Robots-Tag"] = "noindex, nofollow"
+
+        compressible = {
+            "text/html",
+            "text/css",
+            "text/plain",
+            "application/javascript",
+            "application/json",
+            "application/xml",
+            "image/svg+xml",
+        }
+        if (
+            response.status_code == 200
+            and "gzip" in request.headers.get("Accept-Encoding", "")
+            and response.mimetype in compressible
+            and not response.direct_passthrough
+            and "Content-Encoding" not in response.headers
+        ):
+            data = response.get_data()
+            if len(data) >= 1024:
+                compressed = gzip.compress(data, 6)
+                response.set_data(compressed)
+                response.headers["Content-Encoding"] = "gzip"
+                response.headers["Content-Length"] = str(len(compressed))
+                response.headers["Vary"] = "Accept-Encoding"
+        return response
 
     @app.errorhandler(404)
     def page_not_found(e):

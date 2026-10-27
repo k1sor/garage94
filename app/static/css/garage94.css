@@ -7,6 +7,7 @@
   --muted: #cccccc;
   --accent: #ff0055;
   --accent-hover: #e6004c;
+  --accent-link: #ff4d85;
   --accent-alt: #ffba08;
   --border: #333333;
   --radius: 10px;
@@ -34,13 +35,13 @@ body {
 }
 
 a {
-  color: var(--accent);
+  color: var(--accent-link);
   text-decoration: none;
   transition: color 0.15s ease;
 }
 
 a:hover {
-  color: var(--accent-hover);
+  color: #ff85ad;
 }
 
 img {
@@ -89,7 +90,7 @@ img {
   height: 2.1rem;
   border-radius: 6px;
   background: var(--accent);
-  color: #fff;
+  color: #111111;
   font-size: 0.85rem;
   font-weight: 900;
 }
@@ -118,7 +119,7 @@ img {
 
 .nav-links a:hover,
 .nav-links a.active {
-  color: var(--accent);
+  color: var(--accent-link);
 }
 
 .nav-actions {
@@ -142,7 +143,7 @@ img {
 
 .cart-badge:hover {
   border-color: var(--accent);
-  color: var(--accent);
+  color: var(--accent-link);
 }
 
 .cart-count {
@@ -154,7 +155,7 @@ img {
   padding: 0 0.25rem;
   border-radius: 999px;
   background: var(--accent);
-  color: #fff;
+  color: #111111;
   font-size: 0.7rem;
   font-weight: 700;
   display: grid;
@@ -180,12 +181,12 @@ img {
 
 .btn-accent {
   background: var(--accent);
-  color: #fff;
+  color: #111111;
 }
 
 .btn-accent:hover {
   background: var(--accent-hover);
-  color: #fff;
+  color: #111111;
 }
 
 .btn-ghost {
@@ -196,7 +197,7 @@ img {
 
 .btn-ghost:hover {
   border-color: var(--accent);
-  color: var(--accent);
+  color: var(--accent-link);
 }
 
 .btn-danger {
@@ -344,10 +345,15 @@ img {
   font-weight: 700;
   font-size: 1rem;
   line-height: 1.3;
+  margin: 0;
 }
 
-.product-card .title:hover {
-  color: var(--accent);
+.product-card .title a {
+  color: var(--text);
+}
+
+.product-card .title a:hover {
+  color: var(--accent-link);
 }
 
 .product-card .meta {
@@ -417,11 +423,18 @@ img {
   top: 5rem;
 }
 
-.filters h3 {
+.filters h2 {
   margin: 0 0 0.9rem;
   font-size: 0.95rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
+}
+
+.results-count {
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 400;
+  margin: 0 0 1rem;
 }
 
 .form-group {
@@ -508,7 +521,7 @@ textarea.form-input {
 .product-detail .artist-lg {
   color: var(--muted);
   font-size: 1.05rem;
-  margin-bottom: 1rem;
+  margin: 0 0 1rem;
 }
 
 .detail-meta {
@@ -684,9 +697,15 @@ table.data tr:last-child td {
   background: var(--bg-soft);
 }
 
+.empty h1,
+.empty h2,
 .empty h3 {
   color: var(--text);
   margin: 0 0 0.5rem;
+}
+
+.empty h1 {
+  font-size: 1.6rem;
 }
 
 /* Footer */
@@ -758,14 +777,14 @@ main {
   letter-spacing: 0.04em;
 }
 .product-card a.artist:hover {
-  color: var(--accent);
+  color: var(--accent-link);
 }
 
 .product-detail .artist-lg a {
   color: var(--muted);
 }
 .product-detail .artist-lg a:hover {
-  color: var(--accent);
+  color: var(--accent-link);
 }
 
 /* Tracklist */

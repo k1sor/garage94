@@ -1,12 +1,14 @@
 {% extends "base.html" %}
-{% block title %}Каталог{% endblock %}
+{% block title %}Каталог виниловых пластинок — Garage Vinyl{% endblock %}
+{% block description %}Каталог виниловых пластинок Garage Vinyl: поиск по жанру, году выпуска и цене. Джаз, рок, хип-хоп, электроника, соул и панк в наличии.{% endblock %}
+{% block robots %}{% if filters.q %}<meta name="robots" content="noindex, follow">{% endif %}{% endblock %}
 {% block content %}
 <h1 class="page-title">Каталог</h1>
 <p style="color:var(--muted);margin:0 0 1.5rem;">Фильтруй по жанру, году и цене — найди свой пресс.</p>
 
 <div class="shop-layout">
   <aside class="filters">
-    <h3>Фильтры</h3>
+    <h2>Фильтры</h2>
     <form method="get" action="{{ url_for('catalog.shop') }}">
       <div class="form-group">
         <label for="q">Поиск</label>
@@ -42,7 +44,7 @@
 
   <div>
     {% if products %}
-      <p style="color:var(--muted);margin:0 0 1rem;">Найдено: {{ products|length }}</p>
+      <h2 class="results-count">Найдено: {{ products|length }}</h2>
       <div class="product-grid">
         {% for product in products %}
           {% include "partials/product_card.html" %}
@@ -50,7 +52,7 @@
       </div>
     {% else %}
       <div class="empty">
-        <h3>Ничего не найдено</h3>
+        <h2>Ничего не найдено</h2>
         <p>Попробуйте изменить фильтры или сбросить поиск.</p>
       </div>
     {% endif %}
