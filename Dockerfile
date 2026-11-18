@@ -10,7 +10,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-ENV PORT=5000
+RUN useradd --create-home appuser && mkdir -p /app/data && chown -R appuser:appuser /app
+USER appuser
+
 EXPOSE 5000
 
-CMD ["python", "run.py"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "2", "wsgi:app"]

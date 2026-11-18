@@ -1,0 +1,25 @@
+services:
+  app:
+    build: ..
+    env_file: .env
+    environment:
+      DEBUG: "False"
+      DATABASE_URL: sqlite:////app/data/garage_vinyl.db
+    volumes:
+      - app_db:/app/data
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:1.30-alpine
+    ports:
+      - "127.0.0.1:80:80"
+      - "127.0.0.1:443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./certs:/etc/nginx/certs:ro
+    depends_on:
+      - app
+    restart: unless-stopped
+
+volumes:
+  app_db:

@@ -14,6 +14,9 @@ __pycache__/
 .gitignore
 .github/
 
+# деплой (compose, nginx, сертификаты)
+deploy/
+
 # то что не нужно в образе
 docs/
 tests/

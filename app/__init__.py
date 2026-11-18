@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from flask import Flask, render_template, send_from_directory
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from app.config import Config
 from app.extensions import csrf, db, login_manager
@@ -14,6 +15,8 @@ def create_app(config_class=Config):
         instance_relative_config=False,
     )
     app.config.from_object(config_class)
+
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 
     # Absolute upload folder under project root
     upload = Path(app.config["UPLOAD_FOLDER"])
