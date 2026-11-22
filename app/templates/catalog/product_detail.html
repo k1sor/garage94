@@ -1,19 +1,22 @@
 {% extends "base.html" %}
-{% block title %}{{ product.title }}{% endblock %}
+{% block title %}{{ product.artist }} — {{ product.title }} — купить винил | Garage Vinyl{% endblock %}
+{% block description %}{{ product.description|striptags|truncate(160, True, '…') if product.description else 'Пластинка ' ~ product.artist ~ ' — ' ~ product.title ~ ' (' ~ product.year ~ '), состояние ' ~ product.condition_label ~ '. Купить винил в Garage Vinyl.' }}{% endblock %}
+{% block og_type %}product{% endblock %}
+{% block og_image %}{% if product.cover_url %}{{ product.cover_url }}{% elif product.cover %}{{ site_url }}{{ url_for('media_file', filename=product.cover) }}{% else %}{{ site_url }}{{ url_for('static', filename='img/og-cover.png') }}{% endif %}{% endblock %}
 {% block content %}
 <article class="product-detail" style="margin-top:1.5rem;">
   <div class="cover-lg">
     {% if product.display_cover %}
-      <img src="{{ product.display_cover }}" alt="{{ product.title }}"
+      <img src="{{ product.display_cover }}" alt="{{ product.artist }} — {{ product.title }}" width="600" height="600" decoding="async"
            onerror="this.onerror=null;this.src='{{ url_for('static', filename='img/cover-placeholder.svg') }}';">
     {% else %}
-      <img src="{{ url_for('static', filename='img/cover-placeholder.svg') }}" alt="{{ product.title }}">
+      <img src="{{ url_for('static', filename='img/cover-placeholder.svg') }}" alt="{{ product.artist }} — {{ product.title }}" width="600" height="600" decoding="async">
     {% endif %}
   </div>
   <div>
-    <div class="artist-lg">
+    <p class="artist-lg">
       {{ product.artist }}
-    </div>
+    </p>
     <h1>{{ product.title }}</h1>
     <div class="detail-meta">
       <span class="badge">{{ product.genre_label }}</span>

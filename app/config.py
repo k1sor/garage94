@@ -24,3 +24,6 @@ class Config:
     UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER", "media")
     MAX_CONTENT_LENGTH = 8 * 1024 * 1024  # 8 MB
     WTF_CSRF_ENABLED = True
+
+    SITE_URL = os.getenv("SITE_URL", "https://example.com").rstrip("/")
+    SEND_FILE_MAX_AGE_DEFAULT = 60 * 60 * 24 * 30

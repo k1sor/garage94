@@ -3,9 +3,20 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}Garage Vinyl{% endblock %} · Garage94</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/garage94.css') }}">
+  <title>{% block title %}Garage Vinyl — виниловые пластинки{% endblock %}</title>
+  <meta name="description" content="{% block description %}Garage Vinyl — гаражный магазин виниловых пластинок: джаз, рок, хип-хоп, электроника и панк.{% endblock %}">
+  {% block robots %}{% endblock %}
+  {% block canonical %}<link rel="canonical" href="{{ site_url }}{{ request.path }}">{% endblock %}
+  <meta property="og:title" content="{% block og_title %}{{ self.title() }}{% endblock %}">
+  <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+  <meta property="og:url" content="{{ site_url }}{{ request.path }}">
+  <meta property="og:image" content="{% block og_image %}{{ site_url }}{{ url_for('static', filename='img/og-cover.png') }}{% endblock %}">
+  <meta property="og:image:alt" content="Обложка Garage Vinyl">
+  <meta property="og:description" content="{{ self.description() }}">
+  <meta property="og:site_name" content="Garage Vinyl">
+  <meta name="theme-color" content="#1f1f1f">
+  <link rel="icon" href="{{ url_for('static', filename='img/favicon.svg') }}" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/garage94.css') }}?v=3">
   {% block head %}{% endblock %}
 </head>
 <body>
