@@ -1,4 +1,4 @@
-from flask import Blueprint, Response, current_app, render_template, send_from_directory, url_for
+from flask import Blueprint, Response, current_app, render_template, url_for
 
 from app.models import Product
 
@@ -7,7 +7,9 @@ bp = Blueprint("seo", __name__)
 
 @bp.route("/robots.txt")
 def robots():
-    return send_from_directory(current_app.static_folder, "robots.txt", mimetype="text/plain")
+    site_url = current_app.config["SITE_URL"].rstrip("/")
+    body = render_template("robots.txt", site_url=site_url)
+    return Response(body, mimetype="text/plain")
 
 
 @bp.route("/sitemap.xml")

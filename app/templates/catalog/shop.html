@@ -47,6 +47,7 @@
       <h2 class="results-count">Найдено: {{ products|length }}</h2>
       <div class="product-grid">
         {% for product in products %}
+          {% set eager = loop.first %}
           {% include "partials/product_card.html" %}
         {% endfor %}
       </div>

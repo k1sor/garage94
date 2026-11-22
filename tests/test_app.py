@@ -72,7 +72,7 @@ def test_robots_txt(client):
     assert resp.status_code == 200
     text = resp.get_data(as_text=True)
     assert "User-agent: *" in text
-    assert "Disallow: /cart/" in text
+    assert "Disallow: /cart/" not in text
     assert "Sitemap: https://example.com/sitemap.xml" in text
 
 

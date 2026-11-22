@@ -1,10 +1,11 @@
+{% set is_eager = eager|default(false) %}
 <article class="product-card">
   <a class="cover" href="{{ url_for('catalog.product_detail', slug=product.slug) }}">
     {% if product.display_cover %}
-      <img src="{{ product.display_cover }}" alt="{{ product.artist }} — {{ product.title }}" width="600" height="600" loading="lazy" decoding="async"
+      <img src="{{ product.display_cover|replace('/1000x1000-', '/500x500-') }}" alt="{{ product.artist }} - {{ product.title }}" width="600" height="600" loading="{{ 'eager' if is_eager else 'lazy' }}" decoding="async"{% if is_eager %} fetchpriority="high"{% endif %}
            onerror="this.onerror=null;this.src='{{ url_for('static', filename='img/cover-placeholder.svg') }}';">
     {% else %}
-      <img src="{{ url_for('static', filename='img/cover-placeholder.svg') }}" alt="{{ product.artist }} — {{ product.title }}" width="600" height="600" loading="lazy" decoding="async">
+      <img src="{{ url_for('static', filename='img/cover-placeholder.svg') }}" alt="{{ product.artist }} - {{ product.title }}" width="600" height="600" loading="{{ 'eager' if is_eager else 'lazy' }}" decoding="async">
     {% endif %}
   </a>
   <div class="body">

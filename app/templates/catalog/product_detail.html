@@ -7,7 +7,7 @@
 <article class="product-detail" style="margin-top:1.5rem;">
   <div class="cover-lg">
     {% if product.display_cover %}
-      <img src="{{ product.display_cover }}" alt="{{ product.artist }} — {{ product.title }}" width="600" height="600" decoding="async"
+      <img src="{{ product.display_cover|replace('/1000x1000-', '/600x600-') }}" alt="{{ product.artist }} — {{ product.title }}" width="600" height="600" decoding="async" fetchpriority="high"
            onerror="this.onerror=null;this.src='{{ url_for('static', filename='img/cover-placeholder.svg') }}';">
     {% else %}
       <img src="{{ url_for('static', filename='img/cover-placeholder.svg') }}" alt="{{ product.artist }} — {{ product.title }}" width="600" height="600" decoding="async">
@@ -37,6 +37,7 @@
     {% if product.in_stock %}
     <form class="add-form" method="post" action="{{ url_for('cart.cart_add', product_id=product.id) }}">
       {{ cart_form.hidden_tag() }}
+      <label for="quantity" style="position:absolute;left:-9999px;">Количество</label>
       {{ cart_form.quantity(class_="input-qty", value=1) }}
       {{ cart_form.update }}
       <button class="btn btn-accent" type="submit">В корзину</button>
